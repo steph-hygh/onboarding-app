@@ -1,0 +1,26 @@
+{
+  "name": "onboarding-app",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "workspaces": [
+    "extensions/*"
+  ],
+  "scripts": {
+    "shopify": "shopify",
+    "build": "shopify app build",
+    "dev": "shopify app dev",
+    "info": "shopify app info",
+    "generate": "shopify app generate",
+    "deploy": "shopify app deploy",
+    "graphql-codegen": "graphql-codegen && graphql-codegen --project admin",
+    "postinstall": "npm run graphql-codegen"
+  },
+  "trustedDependencies": [
+    "@shopify/plugin-cloudflare"
+  ],
+  "author": "stephan",
+  "private": true,
+  "devDependencies": {
+    "@shopify/api-codegen-preset": "^3.0.1"
+  }
+}
