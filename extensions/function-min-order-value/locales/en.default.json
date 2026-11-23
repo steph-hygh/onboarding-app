@@ -1,0 +1,4 @@
+{
+  "name": "function-min-order-value",
+  "description": "Checks cart's totalAmount to be greater than 20"
+}

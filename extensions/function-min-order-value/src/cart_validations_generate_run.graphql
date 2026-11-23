@@ -1,0 +1,13 @@
+query CartValidationsGenerateRunInput {
+  cart {
+    cost {
+      totalAmount {
+        amount
+        currencyCode
+      }
+    }
+  },
+  buyerJourney {
+    step
+  }
+}

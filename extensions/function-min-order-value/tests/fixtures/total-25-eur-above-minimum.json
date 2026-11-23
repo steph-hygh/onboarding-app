@@ -1,0 +1,28 @@
+{
+  "payload": {
+    "export": "cart-validations-generate-run",
+    "target": "cart.validations.generate.run",
+    "input": {
+      "cart": {
+        "cost": {
+          "totalAmount": {
+            "amount": "25.0",
+            "currencyCode": "EUR"
+          }
+        }
+      },
+      "buyerJourney": {
+        "step": "CHECKOUT_COMPLETION"
+      }
+    },
+    "output": {
+      "operations": [
+        {
+          "validationAdd": {
+            "errors": []
+          }
+        }
+      ]
+    }
+  }
+}
