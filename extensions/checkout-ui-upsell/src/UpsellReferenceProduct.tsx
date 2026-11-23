@@ -16,7 +16,7 @@ function Extension() {
   const [hideMe, setHideMe] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-   useEffect(() => {
+  useEffect(() => {
     loadReferenceProduct();
   }, []);
 

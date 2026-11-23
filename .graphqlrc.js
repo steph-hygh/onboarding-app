@@ -10,6 +10,7 @@
  *
  * Convention:
  *   - extensions/app-*      → Admin API       (admin UI extensions, they call `fetch('shopify:admin/...')`)
+ *   - extensions/customer-account-* → Customer Account API (they call `fetch('shopify://customer-account/...')`)
  *   - every other extension → Storefront API  (checkout UI extensions, they call `shopify.query()`)
  *   - shared/models         → Admin API       (data helpers used by the app-* extensions)
  *
@@ -24,6 +25,12 @@ const { ApiType, shopifyApiProject } = require('@shopify/api-codegen-preset');
 // Keep in sync with `api_version` in the extensions' shopify.extension.toml files.
 const apiVersion = '2026-10';
 
+// The Customer Account API schema is downloaded per app, so it needs the app's
+// API key (the public `client_id` in shopify.app.toml).
+const appApiKey = require('fs')
+  .readFileSync(require('path').join(__dirname, 'shopify.app.toml'), 'utf8')
+  .match(/^client_id\s*=\s*"([^"]+)"/m)?.[1];
+
 // Source files we scan for `#graphql` template strings.
 const SOURCE_FILES = 'src/**/*.{ts,tsx,js,jsx}';
 
@@ -35,7 +42,7 @@ module.exports = {
     default: shopifyApiProject({
       apiType: ApiType.Storefront,
       apiVersion,
-      documents: [`./extensions/!(app-*)/${SOURCE_FILES}`],
+      documents: [`./extensions/!(app-*|customer-account-*)/${SOURCE_FILES}`],
       outputDir: './shared/types',
     }),
 
@@ -48,6 +55,17 @@ module.exports = {
         `./extensions/app-*/${SOURCE_FILES}`,
         './shared/models/**/*.ts',
       ],
+      outputDir: './shared/types',
+    }),
+
+    // Customer Account API: extensions whose folder starts with "customer-account-".
+    // They call `fetch('shopify://customer-account/api/<version>/graphql.json', ...)`.
+    // Output: shared/types/customer.{types,generated}.d.ts
+    customer: shopifyApiProject({
+      apiType: ApiType.Customer,
+      apiVersion,
+      apiKey: appApiKey,
+      documents: [`./extensions/customer-account-*/${SOURCE_FILES}`],
       outputDir: './shared/types',
     }),
   },
