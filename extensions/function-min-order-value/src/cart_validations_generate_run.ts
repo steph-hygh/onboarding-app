@@ -14,14 +14,20 @@ export function cartValidationsGenerateRun(input: CartValidationsGenerateRunInpu
     return { operations : []};
   }
 
+  let minOrderValue = 20;
+  const metafieldValue = Number(input.validation.metafield?.value);
+  if (metafieldValue >= 0 && Number.isFinite(metafieldValue)) {
+    minOrderValue = metafieldValue;
+  }
+
   const totalAmount = Number(input.cart.cost.totalAmount.amount);
   const currency = input.cart.cost.totalAmount.currencyCode;
 
   const errors: ValidationError[] = [];
-  if (totalAmount < 20) {
+  if (totalAmount < minOrderValue) {
     errors.push(
       {
-        message: `Min order amount 20 ${currency}`,
+        message: `Min order amount ${minOrderValue} ${currency}`,
         target: "$.cart"
       }
     );

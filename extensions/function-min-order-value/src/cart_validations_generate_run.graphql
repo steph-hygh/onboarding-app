@@ -9,5 +9,11 @@ query CartValidationsGenerateRunInput {
   },
   buyerJourney {
     step
+  },
+  validation {
+    metafield(namespace: "$app:min-order", key: "min-order-value-decimal") {
+      value
+    }
   }
+
 }

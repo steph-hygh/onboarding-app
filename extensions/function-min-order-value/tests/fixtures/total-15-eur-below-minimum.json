@@ -13,6 +13,9 @@
       },
       "buyerJourney": {
         "step": "CHECKOUT_COMPLETION"
+      },
+      "validation" : {
+        "metafield": null
       }
     },
     "output": {
